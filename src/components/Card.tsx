@@ -33,7 +33,9 @@ function Card({ card, size = 'medium', onClick, isClickable = false }: CardProps
   if (card.isRemoved) {
     return (
       <div 
-        className={`card ${sizeClasses[size]} card-removed`}
+        className={`card ${sizeClasses[size]} card-removed removed`}
+        data-testid="card"
+        aria-label={`Removed card slot`}
       >
         <div className="card-empty">
           {/* Empty space - no content */}
@@ -44,8 +46,12 @@ function Card({ card, size = 'medium', onClick, isClickable = false }: CardProps
 
   return (
     <div 
-      className={`card ${sizeClasses[size]} ${isClickable ? 'card-clickable' : ''}`}
+      className={`card ${sizeClasses[size]} ${isClickable ? 'card-clickable clickable' : ''}`}
       onClick={handleClick}
+      data-testid="card"
+      role="button"
+      tabIndex={isClickable ? 0 : -1}
+      aria-label={`Card ${card.isVisible ? `with value ${card.value}` : 'face down'}`}
     >
       {card.isVisible ? (
         <div className={`card-front ${getCardColor(card.value)}`}>

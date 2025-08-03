@@ -54,11 +54,11 @@ export class BotPlayer {
       case 'choose':
         return this.makeChoosePhaseDecision(gameState)
       case 'choose_revealed':
-        return this.makeChooseRevealedPhaseDecision(gameState)
+        return this.makeChooseRevealedPhaseDecision()
       case 'swap':
-        return this.makeSwapPhaseDecision(gameState, player)
+        return this.makeSwapPhaseDecision(player)
       case 'reveal':
-        return this.makeRevealPhaseDecision(gameState, player)
+        return this.makeRevealPhaseDecision(player)
       default:
         return null
     }
@@ -94,7 +94,7 @@ export class BotPlayer {
   }
 
   // Choose revealed phase: randomly pick or reject revealed card
-  private static makeChooseRevealedPhaseDecision(_gameState: GameState): GameAction | null {
+  private static makeChooseRevealedPhaseDecision(): GameAction | null {
     // Randomly choose between picking and rejecting (50/50 chance)
     const shouldPick = Math.random() < 0.5
     
@@ -104,7 +104,7 @@ export class BotPlayer {
   }
 
   // Reveal phase: randomly pick a card to reveal
-  private static makeRevealPhaseDecision(_gameState: GameState, player: Player): GameAction | null {
+  private static makeRevealPhaseDecision(player: Player): GameAction | null {
     // Find unrevealed, non-removed cards
     const unrevealedCards = player.cards
       .map((card, index) => ({ card, index }))
@@ -124,7 +124,7 @@ export class BotPlayer {
   }
 
   // Swap phase: randomly pick a card to swap
-  private static makeSwapPhaseDecision(_gameState: GameState, player: Player): GameAction | null {
+  private static makeSwapPhaseDecision(player: Player): GameAction | null {
     // Get all non-removed card positions
     const availableCardIndices = player.cards
       .map((card, index) => ({ card, index }))

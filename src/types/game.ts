@@ -33,5 +33,6 @@ export interface GameState {
 
 export interface GameAction {
   type: 'START_GAME' | 'REVEAL_CARDS' | 'PICK_OPEN_CARD' | 'PICK_REVEALED_CARD' | 'REJECT_REVEALED_CARD' | 'SWAP_CARD' | 'REVEAL_OWN_CARD' | 'REVEAL_FROM_DECK' | 'END_TURN' | 'END_ROUND' | 'START_NEW_ROUND' | 'END_GAME';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload?: any;
 } 
