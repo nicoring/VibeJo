@@ -151,7 +151,7 @@ export const calculateFinalScore = (player: Player): number => {
 // Game reducer for state management
 export const gameReducer = (state: GameState, action: GameAction): GameState => {
   switch (action.type) {
-    case 'START_GAME':
+    case 'START_GAME': {
       // Deal cards to all players
       const { players: dealtPlayers, remainingDeck: deckAfterInitialDeal } = dealCards(state.players, state.deck)
       const openCard = deckAfterInitialDeal[0]
@@ -175,8 +175,9 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         gameEndedBy: null,
         lastTurn: false
       }
+    }
       
-    case 'REVEAL_CARDS':
+    case 'REVEAL_CARDS': {
       // Initial phase: everyone reveals 2 cards, highest sum starts
       const playersWithSums = state.players.map(player => ({
         ...player,
@@ -195,6 +196,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         gamePhase: 'playing',
         actionPhase: 'choose'
       }
+    }
       
     case 'PICK_OPEN_CARD':
       return {
@@ -231,7 +233,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         selectedCardIndex: null
       }
       
-    case 'SWAP_CARD':
+    case 'SWAP_CARD': {
       const { cardIndex } = action.payload
       const currentPlayer = state.players[state.currentPlayerIndex]
       const cardToSwap = state.openCard || state.revealedCard
@@ -300,8 +302,9 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         selectedCardIndex: null,
         currentPlayerIndex: nextPlayerAfterSwap
       }
+    }
       
-    case 'REVEAL_OWN_CARD':
+    case 'REVEAL_OWN_CARD': {
       const { revealCardIndex } = action.payload
       const playerToUpdate = state.players[state.currentPlayerIndex]
       const updatedPlayerCards = [...playerToUpdate.cards]
@@ -406,8 +409,9 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         selectedCardIndex: null,
         currentPlayerIndex: nextPlayerAfterReveal
       }
+    }
       
-    case 'REVEAL_FROM_DECK':
+    case 'REVEAL_FROM_DECK': {
       const { revealedCard: newRevealedCard, newDeck: updatedDeck } = action.payload
       return {
         ...state,
@@ -420,8 +424,9 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         actionPhase: 'choose_revealed',
         selectedCardIndex: null
       }
+    }
       
-    case 'END_TURN':
+    case 'END_TURN': {
       // Check if current player has finished
       const currentPlayerAfterTurn = state.players[state.currentPlayerIndex]
       const hasFinished = hasPlayerFinished(currentPlayerAfterTurn)
@@ -460,8 +465,9 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         ...nextState,
         currentPlayerIndex: nextPlayerInTurn
       }
+    }
       
-    case 'START_NEW_ROUND':
+    case 'START_NEW_ROUND': {
       // Start a new round with fresh cards
       const freshDeck = generateDeck()
       const { players: newRoundPlayers, remainingDeck: deckAfterDealing } = dealCards(state.players, freshDeck, true)
@@ -490,6 +496,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         gameEndedBy: null,
         lastTurn: false
       }
+    }
 
     case 'END_GAME':
       return {
